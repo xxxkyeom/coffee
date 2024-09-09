@@ -1,32 +1,42 @@
 package deu.ex.sevenstars.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@ToString
+@Table(name = "product")
+@Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Product {
-    private final UUID productId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productId;
+
     private String productName;
+
+    @Enumerated(EnumType.STRING)
     private Category category;
-    private long price;
+
+    private int price;
+
     private String description;
-    private final LocalDateTime createdAt;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public Product(UUID productId, String productName, Category category, long price) {
-        this.productId = productId;
-        this.productName = productName;
-        this.category = category;
-        this.price = price;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
 
     public void changeDescription(String description) {
         this.description = description;
@@ -43,7 +53,7 @@ public class Product {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void changePrice(long price) {
+    public void changePrice(int price) {
         this.price = price;
         this.updatedAt = LocalDateTime.now();
     }
