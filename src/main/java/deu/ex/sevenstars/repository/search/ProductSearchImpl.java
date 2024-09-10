@@ -20,6 +20,62 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
     }
 
     @Override
+    public Page<Product> findProductsByOrderByPriceASC(Pageable pageable) {
+        QProduct product = QProduct.product;
+
+        JPQLQuery<Product> query = from(product);
+        query.orderBy(product.price.asc());
+
+        getQuerydsl().applyPagination(pageable, query); //페이징 적용
+        List<Product> productPage = query.fetch(); //쿼리 실행
+        long count = query.fetchCount();  //레코드 수 조회
+
+        return new PageImpl<>(productPage, pageable, count);
+    }
+
+    @Override
+    public Page<Product> findProductsByOrderByPriceDESC(Pageable pageable) {
+        QProduct product = QProduct.product;
+
+        JPQLQuery<Product> query = from(product);
+        query.orderBy(product.price.desc());
+
+        getQuerydsl().applyPagination(pageable, query); //페이징 적용
+        List<Product> productPage = query.fetch(); //쿼리 실행
+        long count = query.fetchCount();  //레코드 수 조회
+
+        return new PageImpl<>(productPage, pageable, count);
+    }
+
+    @Override
+    public Page<Product> findProductsByOrderByCategoryASC(Pageable pageable) {
+        QProduct product = QProduct.product;
+
+        JPQLQuery<Product> query = from(product);
+        query.orderBy(product.category.asc());
+
+        getQuerydsl().applyPagination(pageable, query); //페이징 적용
+        List<Product> productPage = query.fetch(); //쿼리 실행
+        long count = query.fetchCount();  //레코드 수 조회
+
+        return new PageImpl<>(productPage, pageable, count);
+    }
+
+    @Override
+    public Page<Product> findProductsByOrderByCategoryDESC(Pageable pageable) {
+        QProduct product = QProduct.product;
+
+        JPQLQuery<Product> query = from(product);
+        query.orderBy(product.category.desc());
+
+        getQuerydsl().applyPagination(pageable, query); //페이징 적용
+        List<Product> productPage = query.fetch(); //쿼리 실행
+        long count = query.fetchCount();  //레코드 수 조회
+
+        return new PageImpl<>(productPage, pageable, count);
+    }
+
+    @Override
     public Page<Product> list(Pageable pageable) {
         QProduct product = QProduct.product;
 
