@@ -38,6 +38,7 @@ public class Product {
     private LocalDateTime updatedAt;
 
 
+
     public void changeDescription(String description) {
         this.description = description;
         this.updatedAt = LocalDateTime.now();

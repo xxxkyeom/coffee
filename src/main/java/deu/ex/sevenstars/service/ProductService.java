@@ -1,5 +1,6 @@
 package deu.ex.sevenstars.service;
 
+import deu.ex.sevenstars.dto.PageRequestDTO;
 import deu.ex.sevenstars.dto.ProductDTO;
 import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.ProductException;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,5 +71,14 @@ public class ProductService {
         }
     }
 
-//    public Page<ProductDTO> page(Pa) //여기부터 시작 9월9일
+    public Page<ProductDTO> page(PageRequestDTO pageRequestDTO){
+        try {
+            Sort sort = Sort.by("productId").ascending();
+            Pageable pageable = pageRequestDTO.getPageable(sort);
+            return productRepository.listDTO(pageable);
+        }catch (Exception e){
+            log.error("예외 코드 : " + e.getMessage());
+            throw ProductException.NOT_FOUND.get();
+        }
+    }
 }

@@ -7,18 +7,18 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = "orderItems")
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
@@ -29,9 +29,11 @@ public class Order {
 
     private String postcode;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
-    private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<OrderItem> orderItems = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @CreatedDate
@@ -45,6 +47,22 @@ public class Order {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void addOrderItem(Product product) {
+        OrderItem orderItem = OrderItem.builder()
+                .product(product)
+                .price(product.getPrice())
+                .quantity(1) //1로 add버튼 ++
+                .category(product.getCategory())
+                .orders(this) // Order 객체를 설정
+                .build();
+        this.orderItems.add(orderItem);
+    }
+
+    public void removeOrderItem(OrderItem orderItem) {
+        orderItems.remove(orderItem);
+        orderItem.changeOrder(null);
+    }
+
     public void changePostcode(String postcode) {
         this.postcode = postcode;
         this.updatedAt = LocalDateTime.now();
@@ -55,4 +73,10 @@ public class Order {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void changeOrderItems(List<OrderItem> orderItems) {
+        this.orderItems.clear();
+        if (orderItems != null) {
+            this.orderItems.addAll(orderItems);
+        }
+    }
 }

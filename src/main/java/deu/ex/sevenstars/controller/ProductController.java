@@ -1,5 +1,6 @@
 package deu.ex.sevenstars.controller;
 
+import deu.ex.sevenstars.dto.PageRequestDTO;
 import deu.ex.sevenstars.dto.ProductDTO;
 import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.ProductException;
@@ -7,6 +8,7 @@ import deu.ex.sevenstars.service.ProductService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -70,5 +72,12 @@ public class ProductController {
         }
 
         return ResponseEntity.ok(Map.of("result", "success"));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ProductDTO>> page(@Validated PageRequestDTO pageRequestDTO){
+        log.info("page() : " + pageRequestDTO);
+
+        return ResponseEntity.ok(productService.page(pageRequestDTO));
     }
 }

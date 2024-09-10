@@ -2,13 +2,12 @@ package deu.ex.sevenstars.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = "orders")  // 순환 참조 방지
 @Table(name = "orderItem")
 @Builder
 public class OrderItem {
@@ -20,14 +19,24 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
-    private Order order;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id") // 외래 키 컬럼 지정
+    private Orders orders;
 
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     private int price;
 
     private int quantity;
+
+    public void changeOrder(Orders orders){
+        this.orders = orders;
+    }
+
+    public void changeProduct(Product product){
+        this.product= product;
+    }
 
     public void changePrice(int price) {
         this.price = price;
