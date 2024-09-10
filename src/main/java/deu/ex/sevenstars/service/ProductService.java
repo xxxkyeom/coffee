@@ -44,6 +44,8 @@ public class ProductService {
         return new ProductDTO(product);
     }
 
+
+
     public ProductDTO update(ProductDTO productDTO){
         Product product = productRepository.findById(productDTO.getProductId()).orElseThrow(ProductException.NOT_FOUND::get);
 
@@ -76,6 +78,48 @@ public class ProductService {
             Sort sort = Sort.by("productId").ascending();
             Pageable pageable = pageRequestDTO.getPageable(sort);
             return productRepository.listDTO(pageable);
+        }catch (Exception e){
+            log.error("예외 코드 : " + e.getMessage());
+            throw ProductException.NOT_FOUND.get();
+        }
+    }
+
+    public Page<Product> pagePriceASC(PageRequestDTO pageRequestDTO){
+        try {
+            Sort sort = Sort.by("productId").ascending();
+            Pageable pageable = pageRequestDTO.getPageable(sort);
+            return productRepository.findProductsByOrderByPriceASC(pageable);
+        }catch (Exception e){
+            log.error("예외 코드 : " + e.getMessage());
+            throw ProductException.NOT_FOUND.get();
+        }
+    }
+
+    public Page<Product> pagePriceDESC(PageRequestDTO pageRequestDTO){
+        try {
+            Sort sort = Sort.by("productId").ascending();
+            Pageable pageable = pageRequestDTO.getPageable(sort);
+            return productRepository.findProductsByOrderByPriceDESC(pageable);
+        }catch (Exception e){
+            log.error("예외 코드 : " + e.getMessage());
+            throw ProductException.NOT_FOUND.get();
+        }
+    }
+    public Page<Product> pageCategoryASC(PageRequestDTO pageRequestDTO){
+        try {
+            Sort sort = Sort.by("productId").ascending();
+            Pageable pageable = pageRequestDTO.getPageable(sort);
+            return productRepository.findProductsByOrderByCategoryASC(pageable);
+        }catch (Exception e){
+            log.error("예외 코드 : " + e.getMessage());
+            throw ProductException.NOT_FOUND.get();
+        }
+    }
+    public Page<Product> pageCategoryDESC(PageRequestDTO pageRequestDTO){
+        try {
+            Sort sort = Sort.by("productId").ascending();
+            Pageable pageable = pageRequestDTO.getPageable(sort);
+            return productRepository.findProductsByOrderByCategoryDESC(pageable);
         }catch (Exception e){
             log.error("예외 코드 : " + e.getMessage());
             throw ProductException.NOT_FOUND.get();
