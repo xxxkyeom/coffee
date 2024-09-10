@@ -6,6 +6,7 @@ import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.ProductException;
 import deu.ex.sevenstars.exception.ProductTaskException;
 import deu.ex.sevenstars.repository.ProductRepository;
+import deu.ex.sevenstars.util.UploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,9 +26,18 @@ import java.util.stream.Collectors;
 @Log4j2
 public class ProductService {
     private final ProductRepository productRepository;
+    private final UploadUtil uploadUtil; // 업로드 의존성 추가
 
-    public ProductDTO insert(ProductDTO productDTO){
+    public ProductDTO insert(ProductDTO productDTO, MultipartFile imageFile, MultipartFile thumbnailFile){
         try {
+            // ####################################
+            String imagePath = uploadUtil.upload(new MultipartFile[]{imageFile}).get(0);
+            String thumbnailPath = uploadUtil.upload(new MultipartFile[]{thumbnailFile}).get(0);
+
+            productDTO.setImagePath(imagePath);
+            productDTO.setThumbnailPath(thumbnailPath);
+            // ####################################
+
             Product product = productDTO.toEntity();
             productRepository.save(product);
             return new ProductDTO(product);

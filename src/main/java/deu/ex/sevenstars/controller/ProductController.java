@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestScope;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -23,15 +25,22 @@ import java.util.Map;
 public class ProductController {
     private final ProductService productService;
 
+
+    // 생성 메서드 수정 및 사진 파일 추가
     @PostMapping
     public ResponseEntity<ProductDTO> register(
-            @Validated @RequestBody ProductDTO productDTO
+            @Validated @RequestBody ProductDTO productDTO,
+            @RequestParam("image") MultipartFile imageFile,
+            @RequestParam("thumbnail") MultipartFile thumbnailFile
     ){
         log.info("--- register()");
         log.info("--- productDTO : "+productDTO);
 
-        return ResponseEntity.ok(productService.insert(productDTO));
+
+        return ResponseEntity.ok(productService.insert(productDTO, imageFile, thumbnailFile));
     }
+    // ######################################################
+
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDTO> read(
