@@ -60,13 +60,12 @@ public class OrderService {
                         // 주문 아이템 생성
                         OrderItem orderItem = OrderItem.builder()
                                 .product(product)
-                                .price(product.getPrice())
                                 .category(product.getCategory())
-                                .quantity(1)
+                                .quantity(productDTO.getQuantity()) //수정부분
+                                .price(product.getPrice())
                                 .build();
 
                         orderItem.changeOrder(orders); // 주문 아이템에 주문 정보 설정
-
                         return orderItem;
                     })
                     .collect(Collectors.toList());

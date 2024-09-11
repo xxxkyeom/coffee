@@ -18,6 +18,8 @@ public class ProductDTO {
     @Min(0)
     private int price;
 
+    private int quantity; // orderDTO에서 사용
+
     private String description;
 
     public ProductDTO(Product product) {
@@ -25,6 +27,16 @@ public class ProductDTO {
         this.category = product.getCategory();
         this.productName = product.getProductName();
         this.price = product.getPrice();
+        this.description = product.getDescription();
+    }
+
+
+    public ProductDTO(Product product, int quantity) {
+        this.productId = product.getProductId();
+        this.category = product.getCategory();
+        this.productName = product.getProductName();
+        this.price = product.getPrice();
+        this.quantity = quantity;  // quantity 설정
         this.description = product.getDescription();
     }
 
