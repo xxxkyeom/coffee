@@ -58,4 +58,7 @@ public class Product {
         this.price = price;
         this.updatedAt = LocalDateTime.now();
     }
+
+
+
 }
