@@ -1,12 +1,9 @@
 package deu.ex.sevenstars.dto;
 
-import deu.ex.sevenstars.entity.Orders;
 import deu.ex.sevenstars.entity.OrderItem;
-import deu.ex.sevenstars.entity.Product;
-import deu.ex.sevenstars.repository.ProductRepository;
+import deu.ex.sevenstars.entity.Orders;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Collectors;

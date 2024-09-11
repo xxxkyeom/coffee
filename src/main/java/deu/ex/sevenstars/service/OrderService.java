@@ -2,12 +2,10 @@ package deu.ex.sevenstars.service;
 
 import deu.ex.sevenstars.dto.OrderDTO;
 import deu.ex.sevenstars.dto.PageRequestDTO;
-import deu.ex.sevenstars.dto.ProductDTO;
 import deu.ex.sevenstars.entity.OrderItem;
 import deu.ex.sevenstars.entity.Orders;
 import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.OrderException;
-import deu.ex.sevenstars.exception.ProductException;
 import deu.ex.sevenstars.repository.OrderItemRepository;
 import deu.ex.sevenstars.repository.OrderRepository;
 import deu.ex.sevenstars.repository.ProductRepository;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
