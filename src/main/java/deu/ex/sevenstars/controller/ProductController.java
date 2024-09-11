@@ -90,4 +90,32 @@ public class ProductController {
 
         return ResponseEntity.ok(productService.page(pageRequestDTO));
     }
+
+    @GetMapping("/price/ASC")
+    public ResponseEntity<Page<Product>> pagePriceASC(@Validated PageRequestDTO pageRequestDTO){
+        log.info("page() : " + pageRequestDTO);
+
+        return ResponseEntity.ok(productService.pagePriceASC(pageRequestDTO));
+    }
+
+    @GetMapping("/price/DESC")
+    public ResponseEntity<Page<Product>> pagePriceDESC(@Validated PageRequestDTO pageRequestDTO){
+        log.info("page() : " + pageRequestDTO);
+
+        return ResponseEntity.ok(productService.pagePriceDESC(pageRequestDTO));
+    }
+
+    @GetMapping("/category/ASC")
+    public ResponseEntity<Page<Product>> pageCategoryASC(@Validated PageRequestDTO pageRequestDTO){
+        log.info("page() : " + pageRequestDTO);
+
+        return ResponseEntity.ok(productService.pageCategoryASC(pageRequestDTO));
+    }
+
+    @GetMapping("/category/DESC")
+    public ResponseEntity<Page<Product>> pageCategoryDESC(@Validated PageRequestDTO pageRequestDTO){
+        log.info("page() : " + pageRequestDTO);
+
+        return ResponseEntity.ok(productService.pageCategoryDESC(pageRequestDTO));
+    }
 }

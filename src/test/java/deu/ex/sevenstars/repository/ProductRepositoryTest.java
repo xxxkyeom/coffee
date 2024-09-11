@@ -58,7 +58,7 @@ public class ProductRepositoryTest {
                     Product product = Product.builder()
                             .productName("상품 " + i)
                             .category(Category.COFFEE_BEAN_PACKAGE)
-                            .price(1000)
+                            .price(1000*i)
                             .description("테스트 원두 " + i)
                             .build();
 
@@ -84,13 +84,15 @@ public class ProductRepositoryTest {
         assertNotNull(foundProduct);
     }
 
+
+
     @Test
     @Transactional
     @Commit
     public void testUpdate(){
         Long no=1L;
         String name="수정";
-        int price = 1500;
+        int price = 9500;
 
         Optional<Product> foundProduct = productRepository.findById(no);
         assertTrue(foundProduct.isPresent(),"Product should be present");
@@ -137,6 +139,21 @@ public class ProductRepositoryTest {
         assertEquals(0,productPage.getNumber());
         assertEquals(10,productPage.getSize());
         assertEquals(10,productPage.getContent().size());
+
+        productPage.getContent().forEach(System.out::println);
+    }
+
+    @Test
+    public void testListPageTwo(){//page로 받기
+        Pageable pageable = PageRequest.of(0,10, Sort.by("price").ascending());
+
+        Page<Product> productPage = productRepository.findProductsByOrderByPriceASC(pageable);
+        assertNotNull(productPage);
+//        assertEquals(15,productPage.getTotalElements());
+//        assertEquals(2,productPage.getTotalPages());
+//        assertEquals(0,productPage.getNumber());
+//        assertEquals(10,productPage.getSize());
+//        assertEquals(10,productPage.getContent().size());
 
         productPage.getContent().forEach(System.out::println);
     }
