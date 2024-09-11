@@ -14,8 +14,7 @@
 <body class="container-fluid">
 <h1>Grids & Circles</h1>
 <h2>Production Management</h2>
-<form th:action="@{/products}" method="post">
-
+<form th:action="@{/products}" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="productName" class="form-label">Name</label>
         <input type="text" class="form-control" id="productName" name="productName">
@@ -26,20 +25,27 @@
         <select id="category" name="category" class="form-select" >
             <option selected>Open this select menu</option>
             <option value="COFFEE_BEAN_PACKAGE">COFFEE BEAN PACKAGE</option>
-
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="D">D</option>
         </select>
     </div>
 
     <div class="mb-3">
         <label for="price" class="form-label">Price</label>
         <input type="number" class="form-control" id="price" name="price">
-
     </div>
 
     <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control" id="description" name="description" rows="3"></textarea>
     </div>
+
+    <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input type="file" class="form-control" id="image" name="image">
+    </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 </body>
