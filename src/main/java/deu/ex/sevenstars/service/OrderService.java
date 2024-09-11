@@ -2,12 +2,10 @@ package deu.ex.sevenstars.service;
 
 import deu.ex.sevenstars.dto.OrderDTO;
 import deu.ex.sevenstars.dto.PageRequestDTO;
-import deu.ex.sevenstars.dto.ProductDTO;
 import deu.ex.sevenstars.entity.OrderItem;
 import deu.ex.sevenstars.entity.Orders;
 import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.OrderException;
-import deu.ex.sevenstars.exception.ProductException;
 import deu.ex.sevenstars.repository.OrderItemRepository;
 import deu.ex.sevenstars.repository.OrderRepository;
 import deu.ex.sevenstars.repository.ProductRepository;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,13 +57,12 @@ public class OrderService {
                         // 주문 아이템 생성
                         OrderItem orderItem = OrderItem.builder()
                                 .product(product)
-                                .price(product.getPrice())
                                 .category(product.getCategory())
-                                .quantity(1)
+                                .quantity(productDTO.getQuantity()) //수정부분
+                                .price(product.getPrice())
                                 .build();
 
                         orderItem.changeOrder(orders); // 주문 아이템에 주문 정보 설정
-
                         return orderItem;
                     })
                     .collect(Collectors.toList());
