@@ -6,6 +6,7 @@ import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.ProductException;
 import deu.ex.sevenstars.exception.ProductTaskException;
 import deu.ex.sevenstars.repository.ProductRepository;
+import deu.ex.sevenstars.utils.UploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,8 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 @Log4j2
 public class ProductService {
     private final ProductRepository productRepository;
+    private final UploadUtil uploadUtil; // 업로드 의존성 추가
 
     public ProductDTO insert(ProductDTO productDTO){
         try {
@@ -80,5 +84,10 @@ public class ProductService {
             log.error("예외 코드 : " + e.getMessage());
             throw ProductException.NOT_FOUND.get();
         }
+    }
+
+    public String uploadImage(MultipartFile imageFile) {
+
+        return uploadUtil.upload(imageFile);
     }
 }

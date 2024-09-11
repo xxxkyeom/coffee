@@ -37,6 +37,10 @@ public class Product {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    // 추가 필드
+    private String imagePath;
+    private String thumbnailPath;
+    // #############################
 
 
     public void changeDescription(String description) {
@@ -57,5 +61,15 @@ public class Product {
     public void changePrice(int price) {
         this.price = price;
         this.updatedAt = LocalDateTime.now();
+    }
+
+    // 추가 필드 setter
+    public void changeImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    // 추가 필드 setter
+    public void changeThumbnailPath(String thumbnailPath) {
+        this.thumbnailPath = thumbnailPath;
     }
 }

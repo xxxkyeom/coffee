@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -25,15 +26,24 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductDTO> register(
-            @Validated @RequestBody ProductDTO productDTO
+            @Validated @ModelAttribute ProductDTO productDTO
     ){
+        if(productDTO.getImagePath() == null || productDTO.getImagePath().isEmpty()) {  //이미지가 없는 경우
+            throw ProductException.NO_IMAGE.get();      // NO Product Image를 예외 메시지로 ProductTaskException 예외 발생 시키기
+        }
+
+        if(productDTO.getThumbnailPath() == null || productDTO.getThumbnailPath().isEmpty()) {  //이미지가 없는 경우
+            throw ProductException.NO_IMAGE.get();      // NO Product Image를 예외 메시지로 ProductTaskException 예외 발생 시키기
+        }
+
         log.info("--- register()");
         log.info("--- productDTO : "+productDTO);
 
-        return ResponseEntity.ok(productService.insert(productDTO));
+        return ResponseEntity.ok(productService.insert(productDTO, imageFile, thumbnailFile));
     }
 
     @GetMapping("/{productId}")
+
     public ResponseEntity<ProductDTO> read(
             @PathVariable ("productId") Long productId
     ){
