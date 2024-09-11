@@ -31,6 +31,9 @@ public class Product {
 
     private String description;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -59,6 +62,7 @@ public class Product {
         this.updatedAt = LocalDateTime.now();
     }
 
-
-
+    public void changeImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
