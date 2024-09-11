@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product List</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="container-fluid">
+<h1>Grids & Circles</h1>
+<h2>Production Management</h2>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <a href="/new-product" class="btn btn-primary" type="button">Add Product</a>
+</div>
+
+<table class="table table-hover table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Category</th>
+    <th scope="col">Price</th>
+    <th scope="col">Description</th>
+    <th scope="col">CreatedAt</th>
+    <th scope="col">UpdatedAt</th>
+  </tr>
+  </thead>
+  <tbody id="product-list">
+  <!-- 데이터가 JavaScript를 통해 동적으로 삽입됩니다 -->
+  </tbody>
+</table>
+
+<script>
+  // API를 호출하여 데이터 가져오기
+  fetch('/api/seven/products')
+          .then(response => response.json())
+          .then(products => {
+            const productList = document.getElementById('product-list');
+            products.content.forEach(product => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                    <td>${product.productId}</td>
+                    <td>${product.productName}</td>
+                    <td>${product.category}</td>
+                    <td>${product.price}</td>
+                    <td>${product.description}</td>
+                    <td>${product.createdAt}</td>
+                    <td>${product.updatedAt}</td>
+                `;
+              productList.appendChild(row);
+            });
+          })
+          .catch(error => console.error('Error fetching products:', error));
+</script>
+
+</body>
+</html>
