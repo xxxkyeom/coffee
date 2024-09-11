@@ -2,11 +2,28 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.3'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'com.github.node-gradle.node' version '3.0.1'
 }
 
 group = 'deu.ex'
 version = '0.0.1-SNAPSHOT'
 
+node {
+	version = '20.17.0'  // 사용하려는 Node.js 버전
+	npmVersion = '10.8.3' // 사용하려는 npm 버전
+	download = true      // Gradle이 자동으로 Node.js를 다운로드하게 설정
+}
+task npmBuild(type: NpmTask) {
+	args = ['run', 'build']  // 'build'는 React의 빌드 스크립트
+}
+
+// 백엔드 빌드에 프론트엔드 빌드를 포함
+bootJar {
+	dependsOn npmBuild
+	from("build/") {
+		into 'static'  // 빌드된 파일을 백엔드에서 서빙할 위치
+	}
+}
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
