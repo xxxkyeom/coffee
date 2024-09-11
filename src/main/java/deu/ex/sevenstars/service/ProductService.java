@@ -4,7 +4,6 @@ import deu.ex.sevenstars.dto.PageRequestDTO;
 import deu.ex.sevenstars.dto.ProductDTO;
 import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.ProductException;
-import deu.ex.sevenstars.exception.ProductTaskException;
 import deu.ex.sevenstars.repository.ProductRepository;
 import deu.ex.sevenstars.util.UploadUtil;
 import lombok.RequiredArgsConstructor;
@@ -17,22 +16,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Log4j2
 public class ProductService {
     private final ProductRepository productRepository;
-    /////
+
     private final UploadUtil uploadUtil;
 
     public ProductDTO insert(ProductDTO productDTO, MultipartFile imageFile){
         try {
             Product product = productDTO.toEntity();
-            //////
+
             if (imageFile != null && !imageFile.isEmpty()) {
                 String imageUrl = uploadUtil.upload(imageFile);
                 product.changeImageUrl(imageUrl);
@@ -53,8 +49,6 @@ public class ProductService {
         return new ProductDTO(product);
     }
 
-
-
     public ProductDTO update(ProductDTO productDTO, MultipartFile imageFile){
         Product product = productRepository.findById(productDTO.getProductId()).orElseThrow(ProductException.NOT_FOUND::get);
 
@@ -64,12 +58,10 @@ public class ProductService {
             product.changeCategory(productDTO.getCategory());
             product.changeDescription(product.getDescription());
 
-            /////
             if (imageFile != null && !imageFile.isEmpty()) {
                 String imageUrl = uploadUtil.upload(imageFile);
                 product.changeImageUrl(imageUrl);
             }
-            ////
             return new ProductDTO(product);
         } catch (Exception e){
             log.error("예외 발생 코드 : "+e.getMessage());

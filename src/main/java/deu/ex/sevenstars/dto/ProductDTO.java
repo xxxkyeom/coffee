@@ -20,7 +20,6 @@ public class ProductDTO {
 
     private String description;
 
-    ////
     private String imageUrl;
 
     public ProductDTO(Product product) {
@@ -39,7 +38,6 @@ public class ProductDTO {
                 .category(category)
                 .price(price)
                 .description(description)
-                ///////
                 .imageUrl(imageUrl)
                 .build();
 

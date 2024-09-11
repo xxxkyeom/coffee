@@ -7,16 +7,12 @@ import deu.ex.sevenstars.dto.ProductDTO;
 import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.ProductException;
 import deu.ex.sevenstars.service.ProductService;
-import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
@@ -28,19 +24,6 @@ import java.util.Map;
 public class ProductController {
     private final ProductService productService;
 
-
-    // 생성 메서드 수정 및 사진 파일 추가
-//    @PostMapping
-//    public ResponseEntity<ProductDTO> register(
-//            @RequestPart(name = "productDTO") ProductDTO productDTO,
-//            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
-//    ){
-//        log.info("--- register()");
-//        log.info("--- productDTO : "+productDTO);
-//
-//        ////
-//        return ResponseEntity.ok(productService.insert(productDTO, imageFile));
-//    }
     @PostMapping("/register")
     public ResponseEntity<ProductDTO> register(
             @RequestPart("productDTO") String productDTOJson,
@@ -52,7 +35,6 @@ public class ProductController {
         ProductDTO savedProduct = productService.insert(productDTO, imageFile);
         return ResponseEntity.ok(savedProduct);
     }
-    // ######################################################
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDTO> read(

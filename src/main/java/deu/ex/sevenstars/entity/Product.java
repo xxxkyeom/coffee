@@ -6,9 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.File;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
@@ -33,7 +31,6 @@ public class Product {
 
     private String description;
 
-    ////////////
     @Column(name = "image_url")
     private String imageUrl;
 
@@ -64,7 +61,6 @@ public class Product {
         this.updatedAt = LocalDateTime.now();
     }
 
-    /////
     public void changeImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

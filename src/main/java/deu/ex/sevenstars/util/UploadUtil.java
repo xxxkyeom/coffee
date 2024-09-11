@@ -9,8 +9,6 @@ import net.coobird.thumbnailator.Thumbnails;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -29,7 +27,6 @@ public class UploadUtil {
         uploadPath = tempDir.getAbsolutePath();
     }
 
-    // 파일 업로드 및 썸네일 생성
     public String upload(MultipartFile file) {
         if (!file.getContentType().startsWith("image")) {
             log.error("Unsupported file type: " + file.getContentType());
@@ -42,7 +39,6 @@ public class UploadUtil {
         try {
             file.transferTo(new File(savePath + saveFilename));
 
-            // 썸네일 파일 생성
             Thumbnails.of(new File(savePath + saveFilename))
                     .size(150, 150)
                     .toFile(savePath + "s_" + saveFilename);
@@ -53,7 +49,6 @@ public class UploadUtil {
         }
     }
 
-    // 파일 삭제
     public void deleteFile(String filename) {
         File file = new File(uploadPath + File.separator + filename);
         File thumbFile = new File(uploadPath + File.separator + "s_" + filename);
