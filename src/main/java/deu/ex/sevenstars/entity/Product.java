@@ -7,7 +7,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
@@ -31,16 +30,14 @@ public class Product {
 
     private String description;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-    // 추가 필드
-    private String imagePath;
-    private String thumbnailPath;
-    // #############################
 
 
     public void changeDescription(String description) {
@@ -63,13 +60,7 @@ public class Product {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // 추가 필드 setter
-    public void changeImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    // 추가 필드 setter
-    public void changeThumbnailPath(String thumbnailPath) {
-        this.thumbnailPath = thumbnailPath;
+    public void changeImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

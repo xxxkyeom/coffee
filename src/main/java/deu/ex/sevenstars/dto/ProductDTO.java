@@ -20,9 +20,7 @@ public class ProductDTO {
 
     private String description;
 
-    // 추가 필드
-    private String imagePath;
-    private String thumbnailPath;
+    private String imageUrl;
 
     public ProductDTO(Product product) {
         this.productId = product.getProductId();
@@ -30,8 +28,7 @@ public class ProductDTO {
         this.productName = product.getProductName();
         this.price = product.getPrice();
         this.description = product.getDescription();
-        this.imagePath = product.getImagePath();
-        this.thumbnailPath = product.getThumbnailPath();
+        this.imageUrl = product.getImageUrl();
     }
 
     public Product toEntity(){
@@ -41,8 +38,7 @@ public class ProductDTO {
                 .category(category)
                 .price(price)
                 .description(description)
-                .imagePath(imagePath)
-                .thumbnailPath(thumbnailPath)
+                .imageUrl(imageUrl)
                 .build();
 
         return product;
