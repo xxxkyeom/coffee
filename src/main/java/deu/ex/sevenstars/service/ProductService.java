@@ -32,8 +32,9 @@ public class ProductService {
         try {
 
             // ####################################
-            String imagePath = uploadUtil.upload(new MultipartFile[]{imageFile}).get(0);
-            String thumbnailPath = uploadUtil.upload(new MultipartFile[]{thumbnailFile}).get(0);
+            List<String> filePaths = uploadUtil.upload(new MultipartFile[]{imageFile});
+            String imagePath = filePaths.get(0);
+            String thumbnailPath = filePaths.size() > 1 ? filePaths.get(1) : null;
 
             productDTO.setImagePath(imagePath);
             productDTO.setThumbnailPath(thumbnailPath);
