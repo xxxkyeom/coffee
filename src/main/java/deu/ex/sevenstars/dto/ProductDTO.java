@@ -24,12 +24,15 @@ public class ProductDTO {
 
     private String description;
 
+    private String imageUrl;
+
     public ProductDTO(Product product) {
         this.productId = product.getProductId();
         this.category = product.getCategory();
         this.productName = product.getProductName();
         this.price = product.getPrice();
         this.description = product.getDescription();
+        this.imageUrl = product.getImageUrl();
     }
 
 
@@ -49,6 +52,7 @@ public class ProductDTO {
                 .category(category)
                 .price(price)
                 .description(description)
+                .imageUrl(imageUrl)
                 .build();
 
         return product;

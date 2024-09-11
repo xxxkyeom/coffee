@@ -1,5 +1,7 @@
 package deu.ex.sevenstars.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import deu.ex.sevenstars.dto.PageRequestDTO;
 import deu.ex.sevenstars.dto.ProductDTO;
 import deu.ex.sevenstars.entity.Product;
@@ -20,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -31,19 +34,21 @@ import java.util.Map;
 public class ProductController {
     private final ProductService productService;
 
-    @PostMapping
+    @PostMapping("/register")
     @Operation(summary = "상품 등록", description = "상품 등록하는 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "등록 성공", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "400", description = "등록 실패", content = @Content(mediaType = "application/json"))}
     )
     public ResponseEntity<ProductDTO> register(
-            @Validated @RequestBody ProductDTO productDTO
-    ){
-        log.info("--- register()");
-        log.info("--- productDTO : "+productDTO);
+            @RequestPart("productDTO") String productDTOJson,
+            @RequestPart("imageFile") MultipartFile imageFile) throws JsonProcessingException {
 
-        return ResponseEntity.ok(productService.insert(productDTO));
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDTO productDTO = objectMapper.readValue(productDTOJson, ProductDTO.class);
+
+        ProductDTO savedProduct = productService.insert(productDTO, imageFile);
+        return ResponseEntity.ok(savedProduct);
     }
 
     @GetMapping("/{productId}")
@@ -71,7 +76,8 @@ public class ProductController {
     @Parameters(@Parameter(name = "productId", description = "상품번호"))
     public ResponseEntity<ProductDTO> modify(
             @PathVariable ("productId") Long productId,
-            @Validated @RequestBody ProductDTO productDTO
+            @Validated @RequestPart ProductDTO productDTO,
+            @RequestPart(required = false) MultipartFile imageFile
     ){
         log.info("--- modify()");
         log.info(("--- productDTO : " + productDTO));
@@ -80,7 +86,7 @@ public class ProductController {
             throw ProductException.NOT_MODIFIED.get();
         }
 
-        return ResponseEntity.ok(productService.update(productDTO));
+        return ResponseEntity.ok(productService.update(productDTO, imageFile));
     }
 
     @DeleteMapping("/{productId}")
