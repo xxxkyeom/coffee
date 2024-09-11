@@ -30,6 +30,7 @@ public class ProductService {
 
     public ProductDTO insert(ProductDTO productDTO, MultipartFile imageFile, MultipartFile thumbnailFile){
         try {
+
             // ####################################
             String imagePath = uploadUtil.upload(new MultipartFile[]{imageFile}).get(0);
             String thumbnailPath = uploadUtil.upload(new MultipartFile[]{thumbnailFile}).get(0);

@@ -41,7 +41,6 @@ public class ProductController {
     }
     // ######################################################
 
-
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDTO> read(
             @PathVariable ("productId") Long productId

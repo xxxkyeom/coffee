@@ -24,7 +24,6 @@ public class ProductDTO {
     private String imagePath;
     private String thumbnailPath;
     // #############################################
-
     public ProductDTO(Product product) {
         this.productId = product.getProductId();
         this.category = product.getCategory();

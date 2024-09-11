@@ -37,7 +37,6 @@ public class Product {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
     // 추가 필드
     private String imagePath;
     private String thumbnailPath;

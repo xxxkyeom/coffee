@@ -56,7 +56,6 @@ public class UploadUtil {
         }
         return filenames;
     }
-
     // 파일 삭제
     public void deleteFile(String filename) {
         File file = new File(uploadPath + File.separator + filename);
