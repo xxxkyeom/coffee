@@ -30,32 +30,29 @@ public class UploadUtil {
     }
 
     // 파일 업로드 및 썸네일 생성
-    public List<String> upload(MultipartFile[] files) {
-        List<String> filenames = new ArrayList<>();
-        for (MultipartFile file : files) {
-            if (!file.getContentType().startsWith("image")) {
-                log.error("Unsupported file type: " + file.getContentType());
-                continue;
-            }
-            String uuid = UUID.randomUUID().toString();
-            String saveFilename = uuid + "_" + file.getOriginalFilename();
-            String savePath = uploadPath + File.separator;
-
-            try {
-                file.transferTo(new File(savePath + saveFilename));
-
-                // 썸네일 파일 생성
-                Thumbnails.of(new File(savePath + saveFilename))
-                        .size(150, 150)
-                        .toFile(savePath + "s_" + saveFilename);
-
-                filenames.add(saveFilename);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+    public String upload(MultipartFile file) {
+        if (!file.getContentType().startsWith("image")) {
+            log.error("Unsupported file type: " + file.getContentType());
+            throw new RuntimeException("Unsupported file type");
         }
-        return filenames;
+        String uuid = UUID.randomUUID().toString();
+        String saveFilename = uuid + "_" + file.getOriginalFilename();
+        String savePath = uploadPath + File.separator;
+
+        try {
+            file.transferTo(new File(savePath + saveFilename));
+
+            // 썸네일 파일 생성
+            Thumbnails.of(new File(savePath + saveFilename))
+                    .size(150, 150)
+                    .toFile(savePath + "s_" + saveFilename);
+
+            return saveFilename;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
     // 파일 삭제
     public void deleteFile(String filename) {
         File file = new File(uploadPath + File.separator + filename);

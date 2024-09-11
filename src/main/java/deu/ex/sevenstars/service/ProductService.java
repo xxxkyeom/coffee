@@ -26,21 +26,17 @@ import java.util.stream.Collectors;
 @Log4j2
 public class ProductService {
     private final ProductRepository productRepository;
-    private final UploadUtil uploadUtil; // 업로드 의존성 추가
+    /////
+    private final UploadUtil uploadUtil;
 
-    public ProductDTO insert(ProductDTO productDTO, MultipartFile imageFile, MultipartFile thumbnailFile){
+    public ProductDTO insert(ProductDTO productDTO, MultipartFile imageFile){
         try {
-
-            // ####################################
-            List<String> filePaths = uploadUtil.upload(new MultipartFile[]{imageFile});
-            String imagePath = filePaths.get(0);
-            String thumbnailPath = filePaths.size() > 1 ? filePaths.get(1) : null;
-
-            productDTO.setImagePath(imagePath);
-            productDTO.setThumbnailPath(thumbnailPath);
-            // ####################################
-
             Product product = productDTO.toEntity();
+            //////
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String imageUrl = uploadUtil.upload(imageFile);
+                product.changeImageUrl(imageUrl);
+            }
             productRepository.save(product);
             return new ProductDTO(product);
         } catch (DataIntegrityViolationException e){
@@ -59,7 +55,7 @@ public class ProductService {
 
 
 
-    public ProductDTO update(ProductDTO productDTO){
+    public ProductDTO update(ProductDTO productDTO, MultipartFile imageFile){
         Product product = productRepository.findById(productDTO.getProductId()).orElseThrow(ProductException.NOT_FOUND::get);
 
         try {
@@ -68,6 +64,12 @@ public class ProductService {
             product.changeCategory(productDTO.getCategory());
             product.changeDescription(product.getDescription());
 
+            /////
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String imageUrl = uploadUtil.upload(imageFile);
+                product.changeImageUrl(imageUrl);
+            }
+            ////
             return new ProductDTO(product);
         } catch (Exception e){
             log.error("예외 발생 코드 : "+e.getMessage());

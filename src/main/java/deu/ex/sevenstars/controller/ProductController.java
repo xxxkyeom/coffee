@@ -1,10 +1,13 @@
 package deu.ex.sevenstars.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import deu.ex.sevenstars.dto.PageRequestDTO;
 import deu.ex.sevenstars.dto.ProductDTO;
 import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.ProductException;
 import deu.ex.sevenstars.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,17 +30,27 @@ public class ProductController {
 
 
     // 생성 메서드 수정 및 사진 파일 추가
-    @PostMapping
+//    @PostMapping
+//    public ResponseEntity<ProductDTO> register(
+//            @RequestPart(name = "productDTO") ProductDTO productDTO,
+//            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
+//    ){
+//        log.info("--- register()");
+//        log.info("--- productDTO : "+productDTO);
+//
+//        ////
+//        return ResponseEntity.ok(productService.insert(productDTO, imageFile));
+//    }
+    @PostMapping("/register")
     public ResponseEntity<ProductDTO> register(
-            @Validated @RequestBody ProductDTO productDTO,
-            @RequestParam("image") MultipartFile imageFile,
-            @RequestParam("thumbnail") MultipartFile thumbnailFile
-    ){
-        log.info("--- register()");
-        log.info("--- productDTO : "+productDTO);
+            @RequestPart("productDTO") String productDTOJson,
+            @RequestPart("imageFile") MultipartFile imageFile) throws JsonProcessingException {
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDTO productDTO = objectMapper.readValue(productDTOJson, ProductDTO.class);
 
-        return ResponseEntity.ok(productService.insert(productDTO, imageFile, thumbnailFile));
+        ProductDTO savedProduct = productService.insert(productDTO, imageFile);
+        return ResponseEntity.ok(savedProduct);
     }
     // ######################################################
 
@@ -54,7 +67,8 @@ public class ProductController {
     @PutMapping("/{productId}")
     public ResponseEntity<ProductDTO> modify(
             @PathVariable ("productId") Long productId,
-            @Validated @RequestBody ProductDTO productDTO
+            @Validated @RequestPart ProductDTO productDTO,
+            @RequestPart(required = false) MultipartFile imageFile
     ){
         log.info("--- modify()");
         log.info(("--- productDTO : " + productDTO));
@@ -63,7 +77,7 @@ public class ProductController {
             throw ProductException.NOT_MODIFIED.get();
         }
 
-        return ResponseEntity.ok(productService.update(productDTO));
+        return ResponseEntity.ok(productService.update(productDTO, imageFile));
     }
 
     @DeleteMapping("/{productId}")
