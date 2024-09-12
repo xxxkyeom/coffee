@@ -6,6 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
@@ -39,6 +42,7 @@ public class ProductDTO {
         this.productName = product.getProductName();
         this.price = product.getPrice();
         this.description = product.getDescription();
+        this.updatedAt=product.getUpdatedAt();
         this.imageUrl = product.getImageUrl();
         this.createdAt = product.getCreatedAt().withNano(0);
         this.updatedAt = product.getUpdatedAt().withNano(0);
@@ -63,6 +67,8 @@ public class ProductDTO {
                 .category(category)
                 .price(price)
                 .description(description)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .imageUrl(imageUrl)
                 .build();
 

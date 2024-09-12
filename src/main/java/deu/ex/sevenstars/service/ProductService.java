@@ -33,11 +33,13 @@ public class ProductService {
                 String imageUrl = uploadUtil.upload(imageFile);
                 product.changeImageUrl(imageUrl);
             }
+
             productRepository.save(product);
             return new ProductDTO(product);
         } catch (DataIntegrityViolationException e){
             throw ProductException.NOT_FOUND.get();
         } catch (Exception ee){
+
             log.error("예외 발생 코드 : " + ee.getMessage());
             throw ProductException.NOT_REGISTERED.get();
         }
