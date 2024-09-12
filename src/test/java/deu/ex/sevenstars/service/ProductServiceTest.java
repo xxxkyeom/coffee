@@ -38,5 +38,34 @@ class ProductServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    @Test
+    void insertProductWithImageAndThumbnail() throws Exception {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setProductName("커피");
+        productDTO.setCategory(Category.COFFEE_BEAN_PACKAGE);
+        productDTO.setPrice(100);
+        productDTO.setDescription("맛있는 커피");
 
+        MultipartFile imageFile = mock(MultipartFile.class);
+        MultipartFile thumbnailFile = mock(MultipartFile.class);
+
+        String imagePath = "a47ea256-4f82-4137-8f43-6ff725037284_image.jpg";
+        String thumbnailPath = "28fa9d90-3e15-4e98-97fd-bc435cd41c6a_thumb.jpg";
+
+        when(uploadUtil.upload(any(MultipartFile[].class))).thenAnswer(invocation -> {
+            MultipartFile[] files = invocation.getArgument(0);
+            return Arrays.asList(imagePath, thumbnailPath);
+        });
+
+        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> {
+            return invocation.getArgument(0);
+        });
+
+        ProductDTO result = productService.insert(productDTO, imageFile, thumbnailFile);
+
+        assertNotNull(result);
+        assertEquals(imagePath, result.getImagePath());
+        assertEquals(thumbnailPath, result.getThumbnailPath());
+        verify(productRepository, times(1)).save(any(Product.class));
+    }
 }

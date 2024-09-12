@@ -35,22 +35,6 @@ public class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @Test
-//    public void testFileUpload() throws Exception {
-//        MockMultipartFile image = new MockMultipartFile("image", "image.jpg", "image/jpeg", "image content".getBytes());
-//        MockMultipartFile thumbnail = new MockMultipartFile("thumbnail", "thumbnail.jpg", "image/jpeg", "thumbnail content".getBytes());
-//        MockMultipartFile productDTO = new MockMultipartFile("productDTO", "", "application/json", "{\"productName\": \"Sample Product\", \"price\": 10000}".getBytes());
-//
-//        mockMvc.perform(multipart("/api/v1/products")
-//                        .file(image)
-//                        .file(thumbnail)
-//                        .file(productDTO))
-//                .andExpect(status().isOk());
-//    }
-
     @Test //inset
     public void testInsert(){
         // GIVEN
