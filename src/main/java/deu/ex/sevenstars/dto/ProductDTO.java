@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -42,6 +45,8 @@ public class ProductDTO {
         this.createdAt=product.getCreatedAt();
         this.updatedAt=product.getUpdatedAt();
         this.imageUrl = product.getImageUrl();
+        this.createdAt = product.getCreatedAt().withNano(0);
+        this.updatedAt = product.getUpdatedAt().withNano(0);
     }
 
 
@@ -52,6 +57,8 @@ public class ProductDTO {
         this.price = product.getPrice();
         this.quantity = quantity;  // quantity 설정
         this.description = product.getDescription();
+        this.createdAt = product.getCreatedAt().withNano(0);
+        this.updatedAt = product.getUpdatedAt().withNano(0);
     }
 
     public Product toEntity(){
