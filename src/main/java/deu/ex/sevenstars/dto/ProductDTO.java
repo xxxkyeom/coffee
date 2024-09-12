@@ -64,8 +64,6 @@ public class ProductDTO {
                 .price(price)
                 .description(description)
                 .imageUrl(imageUrl)
-                .createdAt(createdAt)
-                .updatedAt(updatedAt)
                 .build();
 
         return product;
