@@ -27,18 +27,13 @@ public class ProductService {
 
     public ProductDTO insert(ProductDTO productDTO, MultipartFile imageFile){
         try {
-            log.info("insert()--- ");
             Product product = productDTO.toEntity();
 
             if (imageFile != null && !imageFile.isEmpty()) {
-                log.info("이미지 파일 업로드 시작");
                 String imageUrl = uploadUtil.upload(imageFile);
-                log.info("업로드된 이미지 URL: " + imageUrl);
                 product.changeImageUrl(imageUrl);
-                log.info("변경된 이미지 URL: " + product.getImageUrl());
             }
 
-            log.info("insert() final--- ");
             productRepository.save(product);
             return new ProductDTO(product);
         } catch (DataIntegrityViolationException e){

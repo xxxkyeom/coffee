@@ -42,7 +42,6 @@ public class ProductDTO {
         this.productName = product.getProductName();
         this.price = product.getPrice();
         this.description = product.getDescription();
-        this.createdAt=product.getCreatedAt();
         this.updatedAt=product.getUpdatedAt();
         this.imageUrl = product.getImageUrl();
         this.createdAt = product.getCreatedAt().withNano(0);

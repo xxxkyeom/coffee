@@ -33,7 +33,6 @@ public class ProductViewController {
 
     @PostMapping("/new-product")
     public String newProduct1(ProductDTO productDTO, @RequestParam("image")MultipartFile imageFile, RedirectAttributes redirectAttributes) {
-        log.info("new-products controller ---");
         productService.insert(productDTO,imageFile);
         return "redirect:/products";
     }
