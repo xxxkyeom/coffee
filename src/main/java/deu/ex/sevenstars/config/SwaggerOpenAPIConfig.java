@@ -3,6 +3,9 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 @OpenAPIDefinition(
         info = @Info (
@@ -17,4 +20,5 @@ import io.swagger.v3.oas.annotations.tags.Tag;
         }
 )
 public class SwaggerOpenAPIConfig {
+
 }
